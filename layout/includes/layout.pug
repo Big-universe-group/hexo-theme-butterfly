@@ -1,8 +1,23 @@
+//
+  功能: 所有页面的基础布局文件
+
+//- 定义侧边栏和页面类型的变量
 - var htmlClassHideAside = theme.aside.enable && theme.aside.hide ? 'hide-aside' : ''
 - page.aside = is_archive() ? theme.aside.display.archive: is_category() ? theme.aside.display.category : is_tag() ? theme.aside.display.tag : page.aside
+//- 新增判断, 如果是友链也需要根据配置判断
+- page.aside = page.type === 'link' ? theme.aside.display.link : page.aside
 - var hideAside = !theme.aside.enable || page.aside === false ? 'hide-aside' : ''
 - var pageType = is_post() ? 'post' : 'page'
 
+//
+  1. 创建文档声明, 不建议使用!!!, 并创建基本的html结构: html(head, body)
+  2. 通过web_bg设置网站整体背景
+  3. 复用siderbar, 暂不清楚其具体用途
+  4. 设置页面的主题内容:
+    a. header头部
+  5. 设置页面右下角的按钮: rightside
+  6. 引入各类javascript代码
+  
 doctype html
 html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside)
   head
@@ -11,23 +26,30 @@ html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside
     if theme.preloader.enable
       !=partial('includes/loading/index', {}, {cache: true})
 
+    //- 如果设置了backgound网站背景, 则生成: <div id="web_bg"></div>元素, 在最终的网页上可以看到该ID的css样式(fixed定位)
     if theme.background
       #web_bg
       
+    //
+      1. 引入另一个Pug模板文件, 其中partial 是一种常见的模板引擎函数，用于引入其他模板文件, {}表示传递给子模板的局部变量（locals）的对象
+      2. != 表示输出不转义的HTML。这意味着 sidebar 模板的输出将被原样插入到父模板中，而不会转义HTML特殊字符
     !=partial('includes/sidebar', {}, {cache: true})
 
+    //- 页面主体区域: <div class="post/page" id="body-wrap"></div>
     if page.type !== '404'
       #body-wrap(class=pageType)
+        //- 真正的顶部区域
         include ./header/index.pug
-
+        //- 中间内容区域
         main#content-inner.layout(class=hideAside)
           if body
             div!= body
           else
             block content
+            //- 这里添加新的条件, 如果页面是友链则关闭侧边栏
             if theme.aside.enable && page.aside !== false
               include widget/index.pug
-
+        //- 底部footer区域
         - var footerBg = theme.footer_bg
         if (footerBg)
           if (footerBg === true)

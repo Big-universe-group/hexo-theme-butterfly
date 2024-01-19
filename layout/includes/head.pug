@@ -1,3 +1,10 @@
+//
+  所有页面基本上都要引用的head包, 最后面还包含inject的css和js的导入
+  辅助函数说明:
+    is_achieve: 是否为归档页面, is_tag, is_category类似
+    is_home: 是否为首页
+    is_current(path, [strict]): 当前页面是否符合path
+
 - var pageTitle
 - is_archive() ? page.title = findArchivesTitle(page, theme.menu, date) : ''
 - if (is_tag()) pageTitle = _p('page.tag') + ': ' + page.tag
@@ -38,7 +45,7 @@ link(rel="canonical" href=urlNoIndex(null,config.pretty_urls.trailing_index,conf
 if (theme.pwa && theme.pwa.enable)
   !=partial('includes/head/pwa', {}, {cache: true})
 
-//- main css
+//- main css: 一些主要的css样式, 例如字体等
 link(rel='stylesheet', href=url_for(theme.asset.main_css))
 link(rel='stylesheet', href=url_for(theme.asset.fontawesome))
 

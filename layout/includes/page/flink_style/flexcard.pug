@@ -1,0 +1,51 @@
+//
+  遍历所有的链接并构建如下结构:
+    <h2>某个链接总体块的标题</h2>
+    <div class="flink-desc">总体块的描述</div>
+    <div class="flexcard-flink-list">
+      <a class="flink-list-card">
+        <div class="wrapper cover">
+        </div>
+        <div class="info">
+        </div>
+      </a>
+    </div>
+#article-container
+  if top_img === false
+    h1.page-title= page.title
+  .flink
+    if site.data.link
+      each i in site.data.link
+        if i.class_name
+          h2!= i.class_name
+        if i.class_desc
+          .flink-desc!=i.class_desc
+        .flexcard-flink-list
+          each item in i.link_list
+            a.flink-list-card(href=url_for(item.link) target='_blank' data-title=item.descr)
+              .wrapper.cover
+                - var siteshot = item.siteshot ? url_for(item.siteshot) : 'https://image.thum.io/get/width/400/crop/800/allowJPG/wait/20/noanimate/' + item.link
+                img.loaded.entered.cover.fadeIn(src=siteshot onerror=`this.onerror=null;this.src='` + url_for(theme.error_img.post_page) + `'` alt='' data-ll-status="loaded")
+              .info
+                img.flink-avatar.entered.loaded(src=url_for(item.avatar) onerror=`this.onerror=null;this.src='` + url_for(theme.error_img.flink) + `'` alt='' data-ll-status="loaded")
+                span.flink-sitename
+                  p.flexcard-item-name(style="margin: 0")= item.author || item.name
+                  p(style="margin:0; color: #777; font-size: 12px")= item.descr
+    //- 友链申请信息
+    h2#flink-apply
+      a.headerlink(href='#flink-apply' title='友链申请' data-pjax-state)
+      | 友链申请
+    blockquote
+      p
+        | 名称: #{theme.flink_apply.name}
+        br
+        | 地址: 
+        a(href=url_for(theme.flink_apply.link) data-pjax-state='') #{theme.flink_apply.link}
+        br
+        | 头像: 
+        a(target='_blank' rel='noopener' href=url_for(theme.flink_apply.avatar)) #{theme.flink_apply.avatar}
+        br
+        | 简介: #{theme.flink_apply.desc}
+
+
+  != page.content

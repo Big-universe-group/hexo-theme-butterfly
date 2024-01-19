@@ -403,7 +403,8 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         flag = ''
         if (currentTop === 0) {
-          $header.classList.remove('nav-fixed', 'nav-visible')
+          // 正常情况下, 滑动到顶部需要删除nav-fixed
+          // $header.classList.remove('nav-fixed', 'nav-visible')
         }
         $rightside.classList.remove('rightside-show')
       }

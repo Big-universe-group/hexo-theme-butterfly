@@ -1,3 +1,20 @@
+//
+  功能: 侧边栏模板, 但是实际上好像没用到???
+  最终生成的html格式如下:
+    <div id="sidebar">
+      <div id="menu-mask"></div>
+
+      <div id="siderbar-menus">
+
+        <div class="avatar-img is-center">
+        <div class="sidebar-site-data site-data is-center">
+        </div>
+
+        <hr class="custom-hr"></hr>
+
+        <div class="menus-items"></div>
+      </div>
+    </div>
 #sidebar
   #menu-mask
   #sidebar-menus
@@ -14,5 +31,8 @@
         .headline= _p('aside.categories') 
         .length-num= site.categories.length
 
+    //- 最终生成: <hr class="custom-hr"></hr>
     hr.custom-hr
+
+    //- 最终生成: <div class="menus-items"></div>
     !=partial('includes/header/menu_item', {}, {cache: true})

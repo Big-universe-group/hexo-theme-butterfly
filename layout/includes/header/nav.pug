@@ -1,3 +1,35 @@
+//- nav#nav
+//-   span#blog-info
+//-     a(href=url_for('/') title=config.title)
+//-       if theme.nav.logo
+//-         img.site-icon(src=url_for(theme.nav.logo))
+//-       if theme.nav.display_title
+//-         span.site-name=config.title
+    
+//-   #menus
+//-     if (theme.algolia_search.enable || theme.local_search.enable || theme.docsearch.enable)
+//-       #search-button
+//-         a.site-page.social-icon.search(href="javascript:void(0);")
+//-           i.fas.fa-search.fa-fw
+//-           span=' '+_p('search.title')
+//-     !=partial('includes/header/menu_item', {}, {cache: true})
+
+//-     #toggle-menu
+//-       a.site-page(href="javascript:void(0);")
+//-         i.fas.fa-bars.fa-fw
+
+
+//
+  将导航栏和搜索栏分开: 
+    a. blog-info为菜单栏左侧的标题信息, menus为菜单项, nav-right为新增的搜索框
+    b. 另外, 滚动的时候顶栏会消失, 这个通过css实现了, 这里需要添加另外一个效果:滚动的时候中间不显示菜单, 而是显示博客标题
+  结构:
+    <nav id="nav">
+      <span id="blog-info">左侧网站标题</span>
+      <div id="menus">中间的菜单栏</div>
+      <div id="nav-right">右侧区域</div>
+    </nav>
+
 nav#nav
   span#blog-info
     a(href=url_for('/') title=config.title)
@@ -7,15 +39,20 @@ nav#nav
         span.site-name=config.title
     
   #menus
-    if (theme.algolia_search.enable || theme.local_search.enable || theme.docsearch.enable)
-      #search-button
-        a.site-page.social-icon.search(href="javascript:void(0);")
-          i.fas.fa-search.fa-fw
-          span=' '+_p('search.title')
     !=partial('includes/header/menu_item', {}, {cache: true})
 
-    #toggle-menu
-      a.site-page(href="javascript:void(0);")
-        i.fas.fa-bars.fa-fw
+    center#name-container
+      a#page-name(href=url_for('javascript:scrollToTop()') data-pjax-state="external")
+        theme.title
 
-
+  #nav-right
+    if (theme.algolia_search.enable || theme.local_search.enable)
+      #search-button
+        a.site-page.social-icon.search
+          i.iconfont.icon-search
+      #random
+        a.site-page(href=url_for('javascript:toRandomPost()') title="随机前往一个文章")
+          i.iconfont.icon-qiche
+      #toggle-menu
+        a.site-page(href="javascript:void(0);")
+          i.iconfont.icon-bars

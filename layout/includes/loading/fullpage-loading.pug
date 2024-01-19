@@ -1,3 +1,18 @@
+//
+  功能: 全页面加载动画
+  原有结构:
+    <div id="loading-box">
+      <div class="loading-left-bg">这是左半边</div>
+      <div class="loading-right-bg">这是有半屏幕, 实际上并没有设置太多的样式, 即使一个fixed固定定位</div>
+      <div class="spinner-box">
+        <div class="configure-border-1">两个正方形动画的下面一个</div>
+        <div class="configure-border-2">两个正方形动画的上面一个</div>
+        <div class="loading-word">加载中...</div>
+      </div>
+    </div>
+  原有实现原理: 整个javascript实现原理非常简单: 在初始化的时候移除div.loading-box中的loaded类, 在完成的时候再加上, 类样式见loading.styl文件
+  新的实现: 结合https://blog.anheyu.com/posts/52d8.html中的代码, 进行结合, 保留原有的full-page动画
+
 #loading-box
   .loading-left-bg
   .loading-right-bg
@@ -13,17 +28,17 @@ script.
     const $loadingBox = document.getElementById('loading-box')
     const $body = document.body
     const preloader = {
-      endLoading: () => {
-        $body.style.overflow = ''
+      endLoading: () => {  //- 在onload完成之后的回调函数
+        $body.style.overflow = 'auto'
         $loadingBox.classList.add('loaded')
       },
-      initLoading: () => {
-        $body.style.overflow = 'hidden'
+      initLoading: () => {  //- 初始化函数
+        $body.style.overflow = ''
         $loadingBox.classList.remove('loaded')
       }
     }
 
-    preloader.initLoading()
+    //- preloader.initLoading()
     window.addEventListener('load',() => { preloader.endLoading() })
 
     if (!{theme.pjax && theme.pjax.enable}) {
@@ -31,3 +46,30 @@ script.
       document.addEventListener('pjax:complete', () => { preloader.endLoading() })
     }
   })()
+
+
+//
+  //- 根据https://blog.anheyu.com/posts/52d8.html教程完成全屏和pace两个加载动画的显示, 目前弃用
+  #loading-box(onclick='document.getElementById("loading-box").classList.add("loaded")')
+    .loading-bg
+      div.loading-img
+      .loading-image-dot
+
+  script.
+    const preloader = {
+      endLoading: () => {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loading-box').classList.add("loaded")
+      },
+      initLoading: () => {
+        document.body.style.overflow = '';
+        document.getElementById('loading-box').classList.remove("loaded")
+
+      }
+    }
+    window.addEventListener('load',()=> { preloader.endLoading() })
+
+    if (!{theme.pjax && theme.pjax.enable}) {
+      document.addEventListener('pjax:send', () => { preloader.initLoading() })
+      document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+    }

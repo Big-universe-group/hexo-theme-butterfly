@@ -1,4 +1,10 @@
 if theme.preloader.source === 1
+  //- 表示全页面的加载方式
   include ./fullpage-loading.pug
+else if theme.preloader.source === 2
+  //- 支持pace.js的加载, 自动添加页面加载进度条的JavaScript库。它提供了一种简单且高度可配置的方式，用于在网页加载时向用户显示进度指示器
+  include ./pace.pug
 else
+  //- 两者
+  include ./fullpage-loading.pug
   include ./pace.pug

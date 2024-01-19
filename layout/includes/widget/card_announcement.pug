@@ -1,6 +1,9 @@
 if theme.aside.card_announcement.enable
   .card-widget.card-announcement
+    //- 原有的公告信息
     .item-headline
-      i.fas.fa-bullhorn.fa-shake
       span= _p('aside.card_announcement')
     .announcement_content!= theme.aside.card_announcement.content
+    
+    //- 公告栏中添加了一个欢迎信息
+    #welcome-info

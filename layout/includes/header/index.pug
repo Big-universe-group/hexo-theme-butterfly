@@ -1,3 +1,11 @@
+//
+  功能: 页面实际的顶部区域: 导航栏, 标题等等, 注意同layout/head.pug区分开来
+  基本结构:
+    <header id="page-header" class="变量" style="背景">
+      <nav id="nav" class="show"></nav>
+      <div id="post-info/site-info"></div>
+    </header>
+
 if !theme.disable_top_img && page.top_img !== false
   if is_post()
     - var top_img = page.top_img || page.cover || theme.default_top_img
@@ -28,10 +36,25 @@ else
   - var top_img = false
   - var isHomeClass = 'not-top-img'
 
-- const isFixedClass = theme.nav.fixed ? ' fixed' : ''
+//- 这里增加一个新的类nav-fixed
+- const isFixedClass = theme.nav.fixed ? ' fixed nav-fixed' : ''
+
+//
+  1. nav为最顶部的菜单导航项
+  2. 若没有关闭顶部banner图片显示(top_img不为false), 则根据不同的页面显示的内容就不一样
+    a. post文章详情页: <div id="post-info"></div>具体看post-info.pug模块
+    b. 主页: 
+        <div id="site-info">
+          <h1 id="site-title">主标题</h1>
+          <div id="site-subtitle">副标题(可以滚动)</div>
+          <div id="site_social_icons">社交链接(需要开关才开启, 否则display为none)</div>
+        </div>
+        <div id="scroll-down">下拉框按钮</div>
+    c. 对于非主页和非文章页的归档等页面, 仅仅显示一个主标题即可
 
 header#page-header(class=`${isHomeClass+isFixedClass}` style=bg_img)
   !=partial('includes/header/nav', {}, {cache: true})
+  
   if top_img !== false
     if is_post()
       include ./post-info.pug

@@ -1,6 +1,31 @@
 extends includes/layout.pug
 
+
 block content
+  //
+    功能: 主页
+    描述: 在layout的基础上进行的功能扩展, 
+    注意: 
+      a. index文件整体注释不能放在第一行, 第一行必须是extends代码.
+      b. 在index的block外层不能添加注释代码, 其他被引用文件可以
+
+    block content说明: 
+      block content 是一种布局和模板继承的功能。它允许你在一个基础（或父）模板中定义一个可被子模板覆盖的区域
+        1. 在基础(父)模板中定义一个可以被子模板扩展或覆盖的区域:
+          html
+            head
+              title My Website
+            body
+              block content
+        2. 在子模板中通过extends来继承基础模板并使用block content 来填充或覆盖基础模板中的 content 区域, 例如:
+          extends base.pug
+          block content
+            p This is the content of the child template.
+        那么上面的body就会被上面的"p This..."替换
+    
+    -:
+      这个表示开始一行javascript代码, 从而在pug模板中编写js代码
+
   include ./includes/mixins/post-ui.pug
   #recent-posts.recent-posts
     +postUI

@@ -1,11 +1,29 @@
+//
+  功能: 最上方的菜单栏模块
+  生效: 只有在theme中设置了
+    menu:
+      首页: / || fas fa-home
+      ...
+
+    此时才生效
+  实现逻辑: 对menu数组进行遍历, 目前进行支持2级菜单项结构.
+  生成结构:
+    <div class="menus_items">
+      <div class="menus_item">
+
+      </div>
+    </div>
+
 if theme.menu
   .menus_items
     each value, label in theme.menu
       if typeof value !== 'object'
         .menus_item
+          //- 创建了一个指向 valueArray[0] 的链接, 例如/link/ || iconfont icon-links会生成<a class="site-page" href="/link"></a>
           - const valueArray = value.split('||')
           a.site-page(href=url_for(trim(valueArray[0])))
             if valueArray[1]
+              //- fa-fw是一个css类, 其样式: {text-align: center; width }, 注意i.fa-fw本身就是<i class="fa-fw"></i>
               i.fa-fw(class=trim(valueArray[1]))
             span=' '+label
       else
