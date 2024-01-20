@@ -1,3 +1,6 @@
+/*
+  功能: 顶部导航栏和top_img区域的样式
+*/
 #page-header
   position: relative
   width: 100%
@@ -129,9 +132,10 @@
   &.nav-fixed
     #nav
       position: fixed
-      top: -60px
+      // top: -60px
+      top: 0;
       z-index: 91
-      background: rgba(255, 255, 255, .8)
+      background: rgba(255, 255, 255, .9)
       box-shadow: 0 5px 6px -5px alpha($grey, .6)
       transition: transform .2s ease-in-out, opacity .2s ease-in-out
 

@@ -377,6 +377,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return result
     }
 
+    // 滚动事件
     let flag = ''
     const scrollTask = btf.throttle(() => {
       const currentTop = window.scrollY || document.documentElement.scrollTop
@@ -389,13 +390,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (isDown) {
           if (flag !== 'down') {
-            $header.classList.remove('nav-visible')
+            // $header.classList.remove('nav-visible')
             isChatBtn && window.chatBtn.hide()
             flag = 'down'
           }
         } else {
           if (flag !== 'up') {
-            $header.classList.add('nav-visible')
+            // $header.classList.add('nav-visible')
             isChatBtn && window.chatBtn.show()
             flag = 'up'
           }
@@ -403,8 +404,8 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         flag = ''
         if (currentTop === 0) {
-          // 正常情况下, 滑动到顶部需要删除nav-fixed
-          // $header.classList.remove('nav-fixed', 'nav-visible')
+          // 正常情况下, 滑动到顶部需要删除nav-fixed, 此时背景就删除
+          $header.classList.remove('nav-fixed', 'nav-visible')
         }
         $rightside.classList.remove('rightside-show')
       }
