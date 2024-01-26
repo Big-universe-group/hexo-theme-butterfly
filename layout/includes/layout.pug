@@ -1,11 +1,18 @@
 //
   功能: 所有页面的基础布局文件
+  新增: 这里类似layout/includes/header/index.pug中, 新增tags, link, categories页面的判断逻辑
 
 //- 定义侧边栏和页面类型的变量
 - var htmlClassHideAside = theme.aside.enable && theme.aside.hide ? 'hide-aside' : ''
 - page.aside = is_archive() ? theme.aside.display.archive: is_category() ? theme.aside.display.category : is_tag() ? theme.aside.display.tag : page.aside
-//- 新增判断, 如果是友链也需要根据配置判断
-- page.aside = page.type === 'link' ? theme.aside.display.link : page.aside
+
+//- 新增判断, 如果是友链/tags/categories, 则不显示右侧的导航栏
+- var isTags = page.type === 'tags'
+- var isLink = page.type === 'link'
+- var isCategories = page.type === 'categories'
+- page.aside = (isTags || isLink || isCategories) ? theme.aside.display.link : page.aside
+
+
 - var hideAside = !theme.aside.enable || page.aside === false ? 'hide-aside' : ''
 - var pageType = is_post() ? 'post' : 'page'
 

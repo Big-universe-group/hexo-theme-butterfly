@@ -5,12 +5,24 @@
       <nav id="nav" class="show"></nav>
       <div id="post-info/site-info"></div>
     </header>
+  注意, 对于自己生成的友链和tags页面, 在hexo中一致被当成是文章页面, 所以会走is_page流程, 这里需要注意
 
 if !theme.disable_top_img && page.top_img !== false
+  - var isTags = page.type === 'tags'
+  - var isLink = page.type === 'link'
+  - var isCategories = page.type === 'categories'
+
   if is_post()
     - var top_img = page.top_img || page.cover || theme.default_top_img
   else if is_page()
-    - var top_img = page.top_img || theme.default_top_img
+    if isTags 
+      - var top_img = theme.tags_img && (page.top_img || theme.default_top_img)
+    else if isLink 
+      - var top_img = theme.link_img && (page.top_img || theme.default_top_img)
+    else if isCategories 
+      - var top_img = theme.categories_img && (page.top_img || theme.default_top_img)
+    else
+      - var top_img = page.top_img || theme.default_top_img
   else if is_tag()
     - var top_img = theme.tag_per_img && theme.tag_per_img[page.tag] 
     - top_img = top_img ? top_img : (theme.tag_img !== false ? theme.tag_img || theme.default_top_img : false)
@@ -35,7 +47,6 @@ if !theme.disable_top_img && page.top_img !== false
 else
   - var top_img = false
   - var isHomeClass = 'not-top-img'
-
 //- 这里增加一个新的类nav-fixed
 - const isFixedClass = theme.nav.fixed ? ' nav-fixed' : ''
 
