@@ -382,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const scrollTask = btf.throttle(() => {
       const currentTop = window.scrollY || document.documentElement.scrollTop
       const isDown = scrollDirection(currentTop)
-      if (currentTop > 56) {
+      if (currentTop > 56) {  // 56差不多是nav的高度
         if (flag === '') {
           $header.classList.add('nav-fixed')
           $rightside.classList.add('rightside-show')
